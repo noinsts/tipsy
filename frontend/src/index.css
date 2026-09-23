@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: "Inter", sans-serif;
+}
+
+/* Пунктирна "лінія відриву" зверху картки бариста — натяк на квитанцію/банку для чайових */
+.tear-edge {
+  background-image: radial-gradient(circle at 6px 0, transparent 6px, #f2eee4 6.5px);
+  background-size: 16px 12px;
+  background-position: -4px -6px;
+  background-repeat: repeat-x;
+}
