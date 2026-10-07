@@ -11,10 +11,19 @@ export default {
         sage: "#5C6B4F",
         sageDark: "#48543E",
         gold: "#C9A227",
+        canvas: "rgb(var(--canvas) / <alpha-value>)",
+        pen: "rgb(var(--pen) / <alpha-value>)",
+        accent: "rgb(var(--accent) / <alpha-value>)",
+        accentDark: "rgb(var(--accent-dark) / <alpha-value>)",
+        tint: "rgb(var(--tint) / <alpha-value>)",
+        sketch: "rgb(var(--sketch) / <alpha-value>)",
       },
       fontFamily: {
         display: ["Fraunces", "serif"],
         sans: ["Inter", "sans-serif"],
+        brush: ['"Caveat Brush"', "cursive"], // великий заголовок
+        hand: ["Caveat", "cursive"],          // підписи від руки
+        body: ["Onest", "system-ui", "sans-serif"],
       },
       keyframes: {
         riseIn: {

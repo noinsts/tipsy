@@ -2,13 +2,13 @@ import { Link } from "react-router-dom";
 
 export default function Header() {
   return (
-    <header className="border-b border-espresso/10">
-      <div className="max-w-2xl mx-auto px-6 py-6">
+    <header>
+      <div className="max-w-4xl mx-auto px-6 pt-6">
         <Link
           to="/"
-          className="font-display text-xl text-espresso tracking-tight hover:text-sageDark transition-colors"
+          className="font-hand text-2xl font-semibold text-pen hover:text-accentDark transition-colors"
         >
-            Zone Coffee | Green Donner
+          Zona Coffee | Green Doner
         </Link>
       </div>
     </header>

@@ -1,10 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Caveat+Brush&family=Onest:wght@400;500;600&display=swap&subset=cyrillic");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-body {
-  font-family: "Inter", sans-serif;
-}
 
 /* Пунктирна "лінія відриву" зверху картки бариста — натяк на квитанцію/банку для чайових */
 .tear-edge {
@@ -12,4 +10,36 @@ body {
   background-size: 16px 12px;
   background-position: -4px -6px;
   background-repeat: repeat-x;
+}
+
+/* Кольори — RGB-трійки, щоб працювали прозорості Tailwind (bg-accent/20 тощо) */
+:root,
+:root[data-theme="blue"] {
+  --canvas: 247 244 236;      /* тло */
+  --pen: 30 30 30;            /* чорнило */
+  --accent: 46 155 234;       /* кнопка */
+  --accent-dark: 31 95 191;   /* серця, підкреслення */
+  --tint: 220 234 244;        /* плашки бариста */
+  --sketch: 79 179 245;       /* акварельні плями, іскри */
+}
+
+:root[data-theme="green"] {
+  --canvas: 246 249 241;
+  --pen: 28 32 26;
+  --accent: 62 163 77;
+  --accent-dark: 31 108 48;
+  --tint: 220 236 212;
+  --sketch: 120 200 104;
+}
+
+body {
+  background-color: rgb(var(--canvas));
+  color: rgb(var(--pen));
+  font-family: "Onest", system-ui, sans-serif;
+  transition: background-color 0.3s ease;
+}
+
+/* Поважаємо налаштування "зменшити рух" */
+@media (prefers-reduced-motion: reduce) {
+  .animate-spin { animation-duration: 3s; }
 }
