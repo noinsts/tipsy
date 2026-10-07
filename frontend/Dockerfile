@@ -1,12 +1,11 @@
-FROM node:20-alpine
-
+FROM node:22-alpine AS build
 WORKDIR /app
-
 COPY package*.json ./
-RUN npm install
-
+RUN npm ci
 COPY . .
+RUN npm run build
 
-EXPOSE 5173
+FROM caddy:2-alpine
+COPY Caddyfile /etc/caddy/Caddyfile
+COPY --from=build /app/dist /srv
 
-CMD ["npm", "run", "dev", "--", "--host"]
