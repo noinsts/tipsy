@@ -8,6 +8,7 @@ import ua.pp.tipsy.backend.entity.Shift;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ShiftRepository extends JpaRepository<Shift, Long> {
@@ -21,4 +22,6 @@ public interface ShiftRepository extends JpaRepository<Shift, Long> {
                 AND e.active = true
     """)
     List<Shift> findShiftsByCafeSlugAndDate(@Param("slug") String slug, @Param("date") LocalDate date);
+
+    Optional<Shift> findFirstByCafeSlugAndShiftDateOrderByIdAsc(String slug, LocalDate date);
 }

@@ -30,19 +30,6 @@ export default function BaristaCard({ barista }) {
 
                 <p className="text-paper/60 text-sm mb-1">Сьогодні на зміні</p>
                 <h2 className="font-display text-2xl text-paper mb-6">{name}</h2>
-
-                {jarUrl ? (
-                    <a
-                        href={jarUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-block px-6 py-2.5 rounded-full bg-gold text-espresso text-sm font-medium hover:bg-gold/90 transition-colors"
-                    >
-                        Залишити чайові
-                    </a>
-                ) : (
-                    <p className="text-paper/40 text-sm">Банку для чайових ще не додано</p>
-                )}
             </div>
         </div>
     );

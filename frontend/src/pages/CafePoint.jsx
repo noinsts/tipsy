@@ -10,6 +10,7 @@ export default function CafePoint() {
 
   const [cafeName, setCafeName] = useState("");
   const [baristas, setBaristas] = useState([]);
+  const [jarUrl, setJarUrl] = useState("");
   const [noShiftToday, setNoShiftToday] = useState(false);
   const [notFound, setNotFound] = useState(false);
   const [error, setError] = useState(null);
@@ -24,6 +25,7 @@ export default function CafePoint() {
     getShiftBySlug(slug)
         .then((data) => {
           setCafeName(data.cafeName);
+          setJarUrl(data.jarUrl);
           if (data.baristas && data.baristas.length > 0) {
             setBaristas(data.baristas);
           } else {
@@ -75,11 +77,27 @@ export default function CafePoint() {
               </p>
             </div>
         ) : (
+          <div className="flex flex-col items-center gap-12">
             <div className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 justify-center">
               {baristas.map((barista, index) => (
                   <BaristaCard key={barista.name + index} barista={barista} />
               ))}
             </div>
+            <div>
+                {jarUrl ? (
+                    <a
+                      href={jarUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block px-6 py-2.5 rounded-full bg-gold text-espresso text-sm font-medium hover:bg-gold/90 transition-colors"
+                    >
+                      Залишити чайові
+                    </a>
+                ) : (
+                    <p className="text-paper/40 text-sm">Банку для чайових ще не додано</p>
+                )}
+            </div>
+          </div>
         )}
       </div>
   );

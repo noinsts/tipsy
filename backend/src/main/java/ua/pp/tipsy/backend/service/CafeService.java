@@ -33,7 +33,7 @@ public class CafeService {
         Cafe cafe = cafeRepository.findBySlug(slug);
         List<Shift> shifts = shiftRepository.findShiftsByCafeSlugAndDate(slug, LocalDate.now());
         if (shifts.isEmpty()) {
-            return new ShiftResponseDto(cafe.getName(), null);
+            return new ShiftResponseDto(cafe.getName(), null, null);
         }
         List<BaristaResponseDto> baristas = shifts.stream()
                 .map(Shift::getEmployee)
@@ -41,6 +41,11 @@ public class CafeService {
                 .distinct()
                 .toList();
 
-        return new ShiftResponseDto(cafe.getName(), java.util.Optional.of(baristas));
+        String jarUrl = shiftRepository
+                .findFirstByCafeSlugAndShiftDateOrderByIdAsc(slug, LocalDate.now())
+                .map(shift -> shift.getEmployee().getJar_url())
+                .orElse(null);
+
+        return new ShiftResponseDto(cafe.getName(), java.util.Optional.of(baristas), jarUrl);
     }
 }
