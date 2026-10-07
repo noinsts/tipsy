@@ -15,6 +15,15 @@ public class Cafe {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private String description;
+
+    @Column(nullable = false)
+    private String type; // zona / doner
+
+    @Column(nullable = false)
+    private String photoUrl;
+
     @Column(nullable = false, unique = true)
     private String slug;
 

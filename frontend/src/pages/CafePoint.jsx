@@ -9,6 +9,9 @@ export default function CafePoint() {
   const { id: slug } = useParams();
 
   const [cafeName, setCafeName] = useState("");
+  const [cafeDescription, setCafeDescription] = useState("");
+  const [cafePhotoUrl, setCafePhotoUrl] = useState("");
+  const [cafeType, setCafeType] = useState("")
   const [baristas, setBaristas] = useState([]);
   const [jarUrl, setJarUrl] = useState("");
   const [noShiftToday, setNoShiftToday] = useState(false);
@@ -24,7 +27,12 @@ export default function CafePoint() {
 
     getShiftBySlug(slug)
         .then((data) => {
-          setCafeName(data.cafeName);
+          if (data?.cafe) {
+            setCafeName(data.cafe.name);
+            setCafeDescription(data.cafe.description);
+            setCafePhotoUrl(data.cafe.photoUrl);
+            setCafeType(data.cafe.type); // zona / doner
+          }
           setJarUrl(data.jarUrl);
           if (data.baristas && data.baristas.length > 0) {
             setBaristas(data.baristas);
@@ -66,7 +74,8 @@ export default function CafePoint() {
           ← Усі заклади
         </Link>
 
-        <h1 className="font-display text-4xl text-espresso mt-4 mb-12">{cafeName}</h1>
+        <h1 className="font-display text-4xl text-espresso mt-4 mb-2">{cafeName}</h1>
+        <p className="text-ink/60 mb-12">{cafeDescription}</p>
 
         {noShiftToday ? (
             <div className="text-center py-10 border border-dashed border-espresso/20 rounded-2xl">

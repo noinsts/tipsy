@@ -25,16 +25,20 @@ public class CafeService {
 
     public List<CafeResponseDto> getAllCafes() {
         return cafeRepository.findAll().stream()
-                .map(cafe -> new CafeResponseDto(cafe.getId(), cafe.getName(), cafe.getSlug()))
+                .map(CafeResponseDto::fromEntity)
                 .toList();
     }
 
     public ShiftResponseDto getCafe(String slug) {
         Cafe cafe = cafeRepository.findBySlug(slug);
+        CafeResponseDto cafeResponseDto = CafeResponseDto.fromEntity(cafe);
+
         List<Shift> shifts = shiftRepository.findShiftsByCafeSlugAndDate(slug, LocalDate.now());
+
         if (shifts.isEmpty()) {
-            return new ShiftResponseDto(cafe.getName(), null, null);
+            return new ShiftResponseDto(cafeResponseDto, null, null);
         }
+
         List<BaristaResponseDto> baristas = shifts.stream()
                 .map(Shift::getEmployee)
                 .map(e -> new BaristaResponseDto(e.getId(), e.getName(), e.getPhoto_url(), e.getJar_url()))
@@ -46,6 +50,6 @@ public class CafeService {
                 .map(shift -> shift.getEmployee().getJar_url())
                 .orElse(null);
 
-        return new ShiftResponseDto(cafe.getName(), java.util.Optional.of(baristas), jarUrl);
+        return new ShiftResponseDto(cafeResponseDto, java.util.Optional.of(baristas), jarUrl);
     }
 }
