@@ -8,7 +8,7 @@ from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, C
 from aiogram.filters import CommandStart
 from aiogram.filters.callback_data import CallbackData
 
-TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "-1")
+TOKEN = os.getenv("TELEGRAM_EMPLOYEE_BOT_TOKEN", "-1")
 BACKEND_URL = os.getenv("BACKEND_URL", "-1")
 BOT_INTERNAL_TOKEN = os.getenv("BOT_INTERNAL_TOKEN", "-1")
 
