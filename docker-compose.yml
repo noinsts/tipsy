@@ -25,6 +25,7 @@ services:
     env_file:
       - .env
     environment:
+      DOMAIN: ${DOMAIN:-localhost}
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${DB_NAME}
       SPRING_DATASOURCE_USERNAME: ${DB_USER}
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
@@ -32,9 +33,9 @@ services:
     depends_on:
       - db
 
-  bot:
-    build: ./bot
-    container_name: tipsy_bot
+  employee_bot:
+    build: ./employee_bot
+    container_name: tipsy_employee_bot
     restart: always
     env_file:
       - .env
