@@ -44,12 +44,12 @@ public class BotController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping(value = "/images/", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = {"/images", "/images/"}, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Map<String, String> upload(@RequestParam MultipartFile file) throws IOException {
         return Map.of("url", imageStorageService.save(file));
     }
 
-    @DeleteMapping("/images/")
+    @DeleteMapping({"/images", "/images/"})
     public ResponseEntity<Void> deleteByUrl(@RequestParam String url) throws IOException {
         return imageStorageService.deleteByUrl(url)
                 ? ResponseEntity.noContent().build()

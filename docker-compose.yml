@@ -30,6 +30,9 @@ services:
       SPRING_DATASOURCE_USERNAME: ${DB_USER}
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
       APP_BOT_INTERNAL_TOKEN: ${BOT_INTERNAL_TOKEN}
+      UPLOAD_DIR: ${UPLOAD_DIR}
+    volumes:
+      - upload_data:${UPLOAD_DIR}
     depends_on:
       - db
 
@@ -40,7 +43,20 @@ services:
     env_file:
       - .env
     depends_on:
-      - backend
+      backend:
+        condition: service_started
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  master_bot:
+    build: ./master_bot
+    container_name: tipsy_master_bot
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      backend:
+        condition: service_started
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
@@ -57,9 +73,11 @@ services:
       - caddy_data:/data
       - caddy_config:/config
     depends_on:
-      - backend
+      backend:
+        condition: service_started
 
 volumes:
   pgdata:
   caddy_data:
   caddy_config:
+  upload_data:

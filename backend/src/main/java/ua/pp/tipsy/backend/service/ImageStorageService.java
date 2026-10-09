@@ -18,9 +18,9 @@ import java.util.UUID;
 public class ImageStorageService {
 
     private static final Map<String, String> ALLOWED = Map.of(
-            "images/jpeg", "jpg",
-            "images/png", "png",
-            "images/webp", "webp"
+            "image/jpeg", "jpg",
+            "image/png", "png",
+            "image/webp", "webp"
     );
 
     private final Path root;
@@ -31,7 +31,7 @@ public class ImageStorageService {
             @Value("${app.public-base-url}") String baseUrl
     ) throws IOException {
         this.root = Paths.get(uploadDir).toAbsolutePath().normalize();
-        this.baseUrl = baseUrl.replaceAll("/+$", "") + "/api/v1/images/";
+        this.baseUrl = baseUrl.replaceAll("/+$", "") + "/api/v1/public/static/images/";
         Files.createDirectories(root);
     }
 

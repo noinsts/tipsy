@@ -19,7 +19,7 @@ public class StaticFilesConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         Path dir = Paths.get(uploadDir).toAbsolutePath().normalize();
-        registry.addResourceHandler("/image/**")
+        registry.addResourceHandler("/api/v1/public/static/images/**")
                 .addResourceLocations(dir.toUri().toString() + "/")
                 .setCacheControl(CacheControl.maxAge(30, TimeUnit.DAYS).cachePublic());
     }
