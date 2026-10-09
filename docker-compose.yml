@@ -31,6 +31,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
       APP_BOT_INTERNAL_TOKEN: ${BOT_INTERNAL_TOKEN}
       UPLOAD_DIR: ${UPLOAD_DIR}
+      VITE_API_URL: ${VITE_API_URL}
     volumes:
       - upload_data:${UPLOAD_DIR}
     depends_on:
@@ -42,6 +43,10 @@ services:
     restart: always
     env_file:
       - .env
+    environment:
+      TELEGRAM_EMPLOYEE_BOT_TOKEN: ${TELEGRAM_EMPLOYEE_BOT_TOKEN}
+      BACKEND_URL: ${BACKEND_URL}
+      BOT_INTERNAL_TOKEN: ${BOT_INTERNAL_TOKEN}
     depends_on:
       backend:
         condition: service_started
@@ -54,6 +59,10 @@ services:
     restart: always
     env_file:
       - .env
+    environment:
+      TELEGRAM_MASTER_BOT_TOKEN: ${TELEGRAM_MASTER_BOT_TOKEN}
+      BACKEND_URL: ${BACKEND_URL}
+      BOT_INTERNAL_TOKEN: ${BOT_INTERNAL_TOKEN}
     depends_on:
       backend:
         condition: service_started
@@ -69,6 +78,7 @@ services:
       - "443:443"
     environment:
       DOMAIN: ${DOMAIN:-localhost}
+      VITE_API_URL: ${VITE_API_URL}
     volumes:
       - caddy_data:/data
       - caddy_config:/config
