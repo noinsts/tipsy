@@ -3,6 +3,8 @@ package ua.pp.tipsy.backend.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+import java.time.LocalDate;
+
 @Entity
 @Getter
 @Table(name = "employees")
@@ -17,6 +19,9 @@ public class Employee {
 
     @Column(nullable = false, unique = true)
     private Long telegram_id;
+
+    @Column(nullable = false)
+    private LocalDate birthday_date;
 
     @Column(nullable = false, length = 500)
     private String jar_url;

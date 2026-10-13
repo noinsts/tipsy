@@ -41,7 +41,7 @@ public class CafeService {
 
         List<BaristaResponseDto> baristas = shifts.stream()
                 .map(Shift::getEmployee)
-                .map(e -> new BaristaResponseDto(e.getId(), e.getName(), e.getPhoto_url(), e.getJar_url()))
+                .map(e -> new BaristaResponseDto(e.getId(), e.getName(), e.getPhoto_url(), e.getJar_url(), e.getBirthday_date()))
                 .distinct()
                 .toList();
 

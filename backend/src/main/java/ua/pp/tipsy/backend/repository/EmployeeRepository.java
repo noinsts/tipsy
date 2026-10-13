@@ -15,7 +15,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             e.id,
             e.name,
             e.photo_url,
-            e.jar_url             
+            e.jar_url,
+            e.birthday_date
         )
         FROM Employee e
         WHERE e.telegram_id = :telegramId
