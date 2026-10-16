@@ -5,6 +5,7 @@ import asyncio
 
 from aiogram import Bot, Dispatcher, Router, F
 from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
+from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart
 from aiogram.filters.callback_data import CallbackData
 
@@ -22,11 +23,17 @@ class CloseFilter(CallbackData, prefix="close"):
 
 # ======================== KEYBOARDS ========================
 
-def get_open_shift_keyboard() -> InlineKeyboardMarkup:
+def get_open_shift_keyboard(jar_url) -> InlineKeyboardMarkup:
     keyboard = [
-        [InlineKeyboardButton(text='Заступити на зміну', callback_data='open_shift')],
+        [InlineKeyboardButton(text='💪 Заступити на зміну', callback_data='open_shift')],
+        [InlineKeyboardButton(text='🔗 Посилання на вашу банку', url=jar_url)]
     ]
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
+
+def get_hub_keyboard() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text='🔙 Повернутись до меню', callback_data='hub')],
+    ])
 
 def cafes_list(cafes) -> InlineKeyboardMarkup:
     keyboard = [
@@ -36,7 +43,7 @@ def cafes_list(cafes) -> InlineKeyboardMarkup:
 
 def close_shift_keyboard(shift_id: int) -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text='Закрити', callback_data=CloseFilter(id=shift_id).pack())],
+        [InlineKeyboardButton(text='👋🏻 Закрити', callback_data=CloseFilter(id=shift_id).pack())],
     ])
 
 # ========================= API =========================
@@ -90,20 +97,43 @@ class MainBot:
         self.bot = Bot(token=TOKEN)
         self.dp = Dispatcher()
 
-    async def handler(self, message: Message) -> None:
-        data = await fetch_barista_by_id(message.from_user.id)
+    async def start_handler(self, event: Message | CallbackData) -> None:
+        data = await fetch_barista_by_id(event.from_user.id)
 
         if not data:
-            await message.reply("Ви не бариста. Якщо сталась помилка - виконайте команду /start")
+            await event.reply("Ви не бариста. Якщо сталась помилка - виконайте команду /start")
             return
 
-        await message.answer(
-            f"Привіт, {data.get('name', 'бариста')}",
-            reply_markup=get_open_shift_keyboard(),
+        name = data.get('name', 'Бариста')
+        image_url = data.get('photoUrl', '-1')
+        jar_url = data.get('jarUrl', 'google.com')
+        birthday_date = data.get('birthdayDate', '01.01.2020')
+
+        caption = (
+            f"<b>Привіт, {name}</b>\n\n"
+            f"* Дата народження: {birthday_date}\n\n"
+            f"<i>Щоб заступити на зміну, натисніть кнопку нижче</i>"
         )
 
+        if isinstance(event, CallbackQuery):
+            await event.message.answer_photo(
+                photo=image_url,
+                caption=caption,
+                parse_mode=ParseMode.HTML,
+                reply_markup=get_open_shift_keyboard(jar_url)
+            )
+            await event.message.delete()
+        else:
+            await event.answer_photo(
+                photo=image_url,
+                caption=caption,
+                parse_mode=ParseMode.HTML,
+                reply_markup=get_open_shift_keyboard(jar_url)
+            )
+
     async def show_cafes_list(self, callback: CallbackQuery) -> None:
-        await callback.message.edit_text(
+        await callback.message.delete()
+        await callback.message.answer(
             "Обери заклад",
             reply_markup=cafes_list(cafes=await fetch_cafes()),
         )
@@ -140,14 +170,15 @@ class MainBot:
 
         await callback.message.edit_text(
             "Зміна успішно закрита",
-            reply_markup=get_open_shift_keyboard(),
+            reply_markup=get_hub_keyboard(),
         )
 
 
     async def run(self) -> None:
         router = Router()
 
-        router.message.register(self.handler, CommandStart())
+        router.message.register(self.start_handler, CommandStart())
+        router.callback_query.register(self.start_handler, F.data == 'hub')
         router.callback_query.register(self.show_cafes_list, F.data == 'open_shift')
         router.callback_query.register(self.open_shift, CafeFilter.filter())
         router.callback_query.register(self.close_shift, CloseFilter.filter())
