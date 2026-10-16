@@ -6,6 +6,7 @@ public record CafeResponseDto(
     Long id,
     String name,
     String description,
+    String address,
     String type,
     String photoUrl,
     String slug
@@ -18,6 +19,7 @@ public record CafeResponseDto(
                 cafe.getId(),
                 cafe.getName(),
                 cafe.getDescription(),
+                cafe.getAddress(),
                 cafe.getType(),
                 cafe.getPhotoUrl(),
                 cafe.getSlug()

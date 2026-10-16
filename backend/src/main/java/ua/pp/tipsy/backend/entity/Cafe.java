@@ -19,6 +19,9 @@ public class Cafe {
     private String description;
 
     @Column(nullable = false)
+    private String address;
+
+    @Column(nullable = false)
     private String type; // zona / doner
 
     @Column(nullable = false)
