@@ -49,7 +49,7 @@ def close_shift_keyboard(shift_id: int) -> InlineKeyboardMarkup:
 # ========================= API =========================
 
 async def fetch_cafes():
-    url = f"http://{BACKEND_URL}/api/v1/public/cafes"
+    url = f"{BACKEND_URL}/api/v1/public/cafes"
 
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as resp:
@@ -60,7 +60,7 @@ async def fetch_barista_by_id(id: int):
     headers = {
         "X-Bot-Token": BOT_INTERNAL_TOKEN
     }
-    url = f"http://{BACKEND_URL}/api/v1/bot/barista/{id}"
+    url = f"{BACKEND_URL}/api/v1/bot/barista/{id}"
     async with aiohttp.ClientSession(headers=headers) as session:
         async with session.get(url) as resp:
             if resp.status == 200:
@@ -72,7 +72,7 @@ async def open_shift(cafe_id: int, employeer_id: int) -> int | None:
     headers = {
         "X-Bot-Token": BOT_INTERNAL_TOKEN
     }
-    url = f"http://{BACKEND_URL}/api/v1/bot/shift/open?cafeId={cafe_id}&employeeId={employeer_id}"
+    url = f"{BACKEND_URL}/api/v1/bot/shift/open?cafeId={cafe_id}&employeeId={employeer_id}"
     async with aiohttp.ClientSession(headers=headers) as session:
         async with session.post(url) as resp:
             if resp.status == 200:
@@ -84,7 +84,7 @@ async def close_shift(shift_id: int) -> bool:
     headers = {
         "X-Bot-Token": BOT_INTERNAL_TOKEN
     }
-    url = f"http://{BACKEND_URL}/api/v1/bot/shift/{shift_id}"
+    url = f"{BACKEND_URL}/api/v1/bot/shift/{shift_id}"
     async with aiohttp.ClientSession(headers=headers) as session:
         async with session.delete(url) as resp:
             return resp.status in (200, 204)

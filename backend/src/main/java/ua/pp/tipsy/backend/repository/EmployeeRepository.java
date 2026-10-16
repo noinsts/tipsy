@@ -14,12 +14,16 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
         SELECT new ua.pp.tipsy.backend.dto.BaristaResponseDto(
             e.id,
             e.name,
-            e.photo_url,
-            e.jar_url,
-            e.birthday_date
+            e.photoUrl,
+            e.jarUrl,
+            e.birthdayDate
         )
         FROM Employee e
-        WHERE e.telegram_id = :telegramId
+        WHERE e.telegramId = :telegramId AND e.active = true
     """)
-    Optional<BaristaResponseDto> findBaristaByTelegramId(@Param("telegramId") Long telegram_id);
+    Optional<BaristaResponseDto> findBaristaByTelegramId(@Param("telegramId") Long telegramId);
+
+    boolean existsByTelegramId(Long telegramId);
+
+    boolean existsByTelegramIdAndIdNot(Long telegramId, Long id);
 }

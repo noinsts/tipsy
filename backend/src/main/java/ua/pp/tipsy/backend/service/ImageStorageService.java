@@ -31,8 +31,28 @@ public class ImageStorageService {
             @Value("${app.public-base-url}") String baseUrl
     ) throws IOException {
         this.root = Paths.get(uploadDir).toAbsolutePath().normalize();
-        this.baseUrl = baseUrl.replaceAll("/+$", "") + "/api/v1/public/static/images/";
+        this.baseUrl = normalizeBaseUrl(baseUrl) + "/api/v1/public/static/images/";
         Files.createDirectories(root);
+    }
+
+    private static String normalizeBaseUrl(String value) {
+        String normalized = value == null ? "" : value.trim().replaceAll("/+$", "");
+        if (normalized.startsWith("https://") || normalized.startsWith("http://")) {
+            return normalized;
+        }
+        if (normalized.isBlank()) {
+            return "http://localhost:8080";
+        }
+        if (normalized.equals("localhost")) {
+            return "http://localhost:8080";
+        }
+        if (normalized.equals("127.0.0.1")) {
+            return "http://127.0.0.1:8080";
+        }
+        if (normalized.startsWith("localhost:") || normalized.startsWith("127.0.0.1:")) {
+            return "http://" + normalized;
+        }
+        return "https://" + normalized;
     }
 
     public String save(MultipartFile file) throws IOException {

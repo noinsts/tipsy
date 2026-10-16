@@ -17,20 +17,40 @@ public class Employee {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, unique = true)
-    private Long telegram_id;
+    @Column(name = "telegram_id", nullable = false, unique = true)
+    private Long telegramId;
 
-    @Column(nullable = false)
-    private LocalDate birthday_date;
+    @Column(name = "birthday_date", nullable = false)
+    private LocalDate birthdayDate;
 
-    @Column(nullable = false, length = 500)
-    private String jar_url;
+    @Column(name = "jar_url", nullable = false, length = 500)
+    private String jarUrl;
 
-    @Column(nullable = true, length = 500)
-    private String photo_url;
+    @Column(name = "photo_url", length = 500)
+    private String photoUrl;
 
     @Column(nullable = false)
     private boolean active;
 
     protected Employee() {}
+
+    public Employee(String name, Long telegramId, LocalDate birthdayDate,
+                    String jarUrl, String photoUrl, boolean active) {
+        this.name = name;
+        this.telegramId = telegramId;
+        this.birthdayDate = birthdayDate;
+        this.jarUrl = jarUrl;
+        this.photoUrl = photoUrl;
+        this.active = active;
+    }
+
+    public void update(String name, Long telegramId, LocalDate birthdayDate,
+                       String jarUrl, String photoUrl, boolean active) {
+        this.name = name;
+        this.telegramId = telegramId;
+        this.birthdayDate = birthdayDate;
+        this.jarUrl = jarUrl;
+        this.photoUrl = photoUrl;
+        this.active = active;
+    }
 }
