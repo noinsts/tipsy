@@ -139,7 +139,6 @@ export default function CafePoint() {
                 src={cafePhotoUrl}
                 alt={cafeName}
                 className="relative w-full h-full object-cover rounded-[2rem]"
-                style={{ filter: "url(#rough)" }}
               />
             ) : (
               <div className="relative w-full h-full flex items-center justify-center">
